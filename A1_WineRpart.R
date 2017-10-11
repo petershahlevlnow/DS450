@@ -54,7 +54,7 @@ ggplot(wine, aes(total.sulfur.dioxide, volatile.acidity)) +
 
 ggplot(wine, aes(total.sulfur.dioxide, volatile.acidity)) +
   geom_point(aes(color = factor(Class, labels = c("White", "Red"))), alpha = 0.3) +
-  facet_grid(. ~ Class) +
+  facet_grid(Class ~ .) +
   xlab('Total SO2') + ylab('Volatile Acidity') + labs(color = "Wine") +
   ggtitle('Total SO2 vs Volatile Acidity by Class') 
 
