@@ -58,3 +58,30 @@ ggplot(wine, aes(total.sulfur.dioxide, volatile.acidity)) +
   xlab('Total SO2') + ylab('Volatile Acidity') + labs(color = "Wine") +
   ggtitle('Total SO2 vs Volatile Acidity by Class') 
 
+ggplot(wine, aes(chlorides, fixed.acidity)) +
+  geom_point(aes(color = factor(Class, labels = c("White", "Red"))), alpha = 0.3) +
+  xlab('chlorides') + ylab('Fixed Acidity') + labs(color = "Wine") +
+  ggtitle('Chlorides vs Fixed Acidity by Class')
+
+# Train and test split
+perc.split <- 0.5
+row.samp <- sample(1:nrow(wine), perc.split*nrow(wine))
+wine.train <- wine[row.samp, ]
+wine.test <- wine[-row.samp, ]
+
+# baseline rpart with all attributes
+require(rpart)
+require(rpart.plot)
+rt.base <- rpart(Class ~., data = wine.train)
+rpart.plot(rt.base, extra = 1, digits = 4)
+
+rt.base.pred <- predict(rt.base, wine.test)
+
+require(pROC)
+require(caret)
+wine.roc <- roc(wine.test$Class, rt.base.pred)
+plot(wine.roc, print.thres = TRUE)
+auc(wine.roc)
+threshold <- .461
+pred.class <- ifelse(rt.base.pred > threshold, 1, 0)
+confusionMatrix(pred.class, wine.test$Class, positive = "1")
