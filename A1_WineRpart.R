@@ -85,3 +85,7 @@ auc(wine.roc)
 threshold <- .461
 pred.class <- ifelse(rt.base.pred > threshold, 1, 0)
 confusionMatrix(pred.class, wine.test$Class, positive = "1")
+
+# to do's 
+# 1. change class to factor
+# 2. re-run with fewer attributes
