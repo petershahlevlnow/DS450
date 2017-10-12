@@ -72,20 +72,33 @@ wine.test <- wine[-row.samp, ]
 # baseline rpart with all attributes
 require(rpart)
 require(rpart.plot)
-rt.base <- rpart(Class ~., data = wine.train)
-rpart.plot(rt.base, extra = 1, digits = 4)
+wine.rt.base <- rpart(Class ~., data = wine.train)
+rpart.plot(wine.rt.base, extra = 1, digits = 4)
 
-rt.base.pred <- predict(rt.base, wine.test)
+wine.rt.base.pred <- predict(wine.rt.base, wine.test)
 
 require(pROC)
 require(caret)
-wine.roc <- roc(wine.test$Class, rt.base.pred)
+wine.roc <- roc(wine.test$Class, wine.rt.base.pred)
 plot(wine.roc, print.thres = TRUE)
 auc(wine.roc)
-threshold <- .461
-pred.class <- ifelse(rt.base.pred > threshold, 1, 0)
+threshold <- .455
+pred.class <- ifelse(wine.rt.base.pred > threshold, 1, 0)
 confusionMatrix(pred.class, wine.test$Class, positive = "1")
 
 # to do's 
 # 1. change class to factor
 # 2. re-run with fewer attributes
+
+# sub-set of attributes 
+wine.rt.sub <- rpart(Class ~ chlorides + fixed.acidity + volatile.acidity + total.sulfur.dioxide, data = wine.train)
+rpart.plot(wine.rt.sub, extra = 1, digits = 4)
+
+wine.rt.sub.pred <- predict(wine.rt.sub, wine.test)
+
+wine.roc <- roc(wine.test$Class, wine.rt.sub.pred)
+plot(wine.roc, print.thres = TRUE)
+auc(wine.roc)
+threshold <- .455
+pred.class <- ifelse(wine.rt.base.pred > threshold, 1, 0)
+confusionMatrix(pred.class, wine.test$Class, positive = "1")
