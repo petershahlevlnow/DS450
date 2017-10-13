@@ -114,4 +114,7 @@ split.optimize(data = wine, response = "Class", formula = Class ~ .)
 
 # no real difference with splits, keep at 45-60% 
  
+# cross validation
 
+require(glmnet)
+cv.glmnet
