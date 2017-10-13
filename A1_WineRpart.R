@@ -84,7 +84,8 @@ plot(wine.roc, print.thres = TRUE)
 auc(wine.roc)
 threshold <- .455
 pred.class <- ifelse(wine.rt.base.pred > threshold, 1, 0)
-confusionMatrix(pred.class, wine.test$Class, positive = "1")
+cm.base <- confusionMatrix(pred.class, wine.test$Class, positive = "1")
+
 
 # to do's 
 # 1. change class to factor
@@ -101,4 +102,16 @@ plot(wine.roc, print.thres = TRUE)
 auc(wine.roc)
 threshold <- .455
 pred.class <- ifelse(wine.rt.base.pred > threshold, 1, 0)
-confusionMatrix(pred.class, wine.test$Class, positive = "1")
+cm.sub <- confusionMatrix(pred.class, wine.test$Class, positive = "1")
+row.names(cm.sub$table) <- c('white', 'red')
+colnames(cm.sub$table) <- c('white', 'red')
+
+cm.sub
+
+# check different splits of training and testing set
+
+split.optimize(data = wine, response = "Class", formula = Class ~ .)    
+
+# no real difference with splits, keep at 45-60% 
+ 
+
