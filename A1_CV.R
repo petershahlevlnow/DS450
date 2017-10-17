@@ -13,8 +13,8 @@ cv.rpartXse <- function(form, train, test, ...) {
 
 ## run the experimental comparison
 results <- experimentalComparison(
-  c(dataset(Infant.Mortality ~ ., swiss),
-    dataset(mpg ~ ., mtcars)),
+  c(dataset(Infant.Mortality ~ ., swiss)),
+    #dataset(mpg ~ ., mtcars)),
   c(variants('cv.rpartXse',se=c(0,0.5,1))),
   cvSettings(1,10,1234)
 )
@@ -26,5 +26,7 @@ learners <- c(rf = 'randomForest', rpart = 'rpartXse')
 funcs <- learners[lapply(strsplit(bestModelNames, '\\.'), function(x) x[2])]
 parSetts <- lapply(bestModelNames, function(x) getVariant(x, resAll)@pars)
 
-getVariant('cv.rpartXse.v1',results)
+t <- getVariant('cv.rpartXse.v1',results)
+
+preds <- predict(t, swiss)
 getVariant(bestScores(results)$swiss['nmse','system'],results)@pars
