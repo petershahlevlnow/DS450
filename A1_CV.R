@@ -30,3 +30,4 @@ t <- getVariant('cv.rpartXse.v1',results)
 
 preds <- predict(t, swiss)
 getVariant(bestScores(results)$swiss['nmse','system'],results)@pars
+
