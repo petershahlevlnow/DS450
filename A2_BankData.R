@@ -121,3 +121,7 @@ rt.ctrl <- as.data.frame(bank.base.rt$control)
 rt.ctrl <- rbind(rt.ctrl, as.data.frame(bank.base.rtxse$control))
 row.names(rt.ctrl) <- c("rpart.base", "rpartXse")
 rt.ctrl
+
+plot.roc(bank.roc, col = "red")
+plot.roc(bank.roc.rtxse, col = "blue", add = TRUE)
+legend("bottomright", legend=c("Base Rpart", "RpartXse"), col=c("red", "blue"), lwd=2)
